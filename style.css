@@ -18,3 +18,7 @@ button {
 #plane {
     background-image: url(images/plane.svg);
 }
+
+#obstacle {
+    background-image: url(images/asteroid.svg);
+}
