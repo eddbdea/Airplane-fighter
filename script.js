@@ -22,7 +22,7 @@ function createGameBoard() {
 }
 
 function createPlane(row, col, element) {
-    if (row === 2 && col === 2) {
+    if (row === 4 && col === 2) {
         element.id = 'plane';
     }
 }
@@ -53,3 +53,5 @@ function moveObstacles() {
     gameBoard[rowIndex][colIndex].removeAttribute('id');
     gameBoard[++rowIndex][colIndex].id = 'obstacle';
 }
+
+createObstacle();
