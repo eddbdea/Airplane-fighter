@@ -9,9 +9,17 @@
     <title>Airplane fighter</title>
   </head>
   <body>
-    <div class="container center">
-      <h2>text</h2>
-      <canvas id="canvas"></canvas>
-    </div>
+    <h1 style="text-align: center;" class="mt-2">Airplane fighter game!</h1>
+    <div class="mb-4"></div>
+    <div class="container text-center">
+      <div class="container text-center" id="game-board">
+        <div class="row row-cols-5" id="game">
+        </div>
+      </div>
+      <div class="mb-4"></div>
+      <button type="button" class="btn btn-success" onclick="movePlane(this)" id="left">Left</button>
+      <button type="button" class="btn btn-success" onclick="movePlane(this)" id="right">Right</button>
+  </div>
+  <script src="script.js"></script>
   </body>
 </html>

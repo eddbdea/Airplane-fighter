@@ -1,3 +1,20 @@
-.center {
+#game-board {
     text-align: center;
+    border: 2px solid black;
+}
+
+.col {
+    border: 2px solid black;
+    height: 3rem;
+    background-repeat: no-repeat;
+    text-align: center;
+    background-position: center;
+}
+
+button {
+    width: 10rem;
+}
+
+#plane {
+    background-image: url(images/plane.svg);
 }
