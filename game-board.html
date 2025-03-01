@@ -13,13 +13,18 @@
     <div class="mb-4"></div>
     <div class="container text-center">
       <div class="container text-center" id="game-board">
-        <div class="row row-cols-5" id="game">
-        </div>
+        <div class="row row-cols-5" id="game"></div>
       </div>
+      <div class="mb-4"></div>
+      <h2 id="score">SCORE: 0</h2>
       <div class="mb-4"></div>
       <button type="button" class="btn btn-success" onclick="movePlane(this)" id="left">Left</button>
       <button type="button" class="btn btn-success" onclick="movePlane(this)" id="right">Right</button>
-  </div>
+      <div class="mb-4"></div>
+      <div id="final-score"></div>
+    </div>
+  <div class="mb-4"></div>
+  <div class="container text-center" id="restart-button"></div>
   <script src="script.js"></script>
   </body>
 </html>
