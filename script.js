@@ -21,7 +21,7 @@ function createGameBoard() {
 }
 
 function createPlane(row, col, element) {
-    if (row === 4 && col === 2) {
+    if (row === MAX_ELEMENTS - 1 && col === 2) {
         element.id = 'plane';
     }
 }
@@ -97,6 +97,8 @@ function restartGameButton() {
     })
     playAgain.innerText = 'Play again!';
     document.getElementById('restart-button').appendChild(playAgain);
+    document.getElementById('left').style.display = 'none';
+    document.getElementById('right').style.display = 'none';
 }
 
 let obstacleCreate = setInterval(createObstacle, 1000);
