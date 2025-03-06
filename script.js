@@ -5,6 +5,7 @@ let planeCol = 2;
 let colIndex = 0;
 let rowIndex = 0;
 let score = 0;
+let obstacleColIndex = 0;
 
 //create game box matrix (2D array)
 function createGameBoard() {
@@ -30,9 +31,11 @@ createGameBoard();
 
 function movePlane(button) {
     if (button.id === 'left' && planeCol > 0) {
+        avoidedObstacle(planeCol, obstacleColIndex);
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][--planeCol].id = 'plane';
     } else if (button.id === 'right' && planeCol < MAX_ELEMENTS - 1) {
+        avoidedObstacle(planeCol, obstacleColIndex);
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][++planeCol].id = 'plane';
     }
@@ -45,8 +48,8 @@ function randomNumber() {
 function createObstacle() {
     colIndex = randomNumber();
     rowIndex = 0;
+    obstacleColIndex = colIndex;
     gameBoard[rowIndex][colIndex].id = 'obstacle';
-    scoreUpdate();
 }
 
 function moveObstacles() {
@@ -82,6 +85,12 @@ function finalScore() {
     const finalScore = document.createElement('h2');
     finalScore.innerText = 'You lost! Final score: ' + score;
     document.getElementById('final-score').appendChild(finalScore);
+}
+
+function avoidedObstacle(planeCol, obstacleCol) {
+    if (planeCol === obstacleCol) {
+        scoreUpdate();
+    }
 }
 
 function scoreUpdate() {

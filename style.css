@@ -20,3 +20,7 @@ button {
 #obstacle {
     background-image: url(images/asteroid.svg);
 }
+
+#projectile {
+    background-image: url(images/missile.svg);
+}
