@@ -5,7 +5,10 @@ let planeCol = 2;
 let colIndex = 0;
 let rowIndex = 0;
 let score = 0;
-let obstacleColIndex = 0;
+let projectileCol = 2;
+let startingRow = 0;
+let projectileLoop = 0;
+let sameLane = true;
 
 //create game box matrix (2D array)
 function createGameBoard() {
@@ -31,13 +34,13 @@ createGameBoard();
 
 function movePlane(button) {
     if (button.id === 'left' && planeCol > 0) {
-        avoidedObstacle(planeCol, obstacleColIndex);
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][--planeCol].id = 'plane';
+        projectileCoordinate(planeCol);
     } else if (button.id === 'right' && planeCol < MAX_ELEMENTS - 1) {
-        avoidedObstacle(planeCol, obstacleColIndex);
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][++planeCol].id = 'plane';
+        projectileCoordinate(planeCol);
     }
 }
 
@@ -48,22 +51,32 @@ function randomNumber() {
 function createObstacle() {
     colIndex = randomNumber();
     rowIndex = 0;
-    obstacleColIndex = colIndex;
     gameBoard[rowIndex][colIndex].id = 'obstacle';
 }
 
 function moveObstacles() {
     const status = checkGameStatus(colIndex);
-    gameBoard[rowIndex][colIndex].removeAttribute('id');
-    if (rowIndex < MAX_ELEMENTS - 1 && status === true) {
+    if (rowIndex < MAX_ELEMENTS - 1 && status === true &&
+        gameBoard[rowIndex][colIndex].id === 'obstacle') {
+        gameBoard[rowIndex][colIndex].removeAttribute('id');
         gameBoard[++rowIndex][colIndex].id = 'obstacle';
     }
 }
 
-function checkLastRow() {
+function avoidedObstacles() {
     for (let col = 0; col < MAX_ELEMENTS; ++col) {
         if (gameBoard[MAX_ELEMENTS - 1][col].id === 'obstacle') {
+            scoreUpdate();
             gameBoard[MAX_ELEMENTS - 1][col].removeAttribute('id');
+        }
+    }
+}
+
+function checkFirstRow() {
+    for (let col = 0; col < MAX_ELEMENTS; ++col) {
+        if(gameBoard[0][col].id === 'projectile') {
+           gameBoard[0][col].removeAttribute('id');
+           clearInterval(projectileLoop);
         }
     }
 }
@@ -87,12 +100,6 @@ function finalScore() {
     document.getElementById('final-score').appendChild(finalScore);
 }
 
-function avoidedObstacle(planeCol, obstacleCol) {
-    if (planeCol === obstacleCol) {
-        scoreUpdate();
-    }
-}
-
 function scoreUpdate() {
     ++score;
     document.getElementById('score').innerText = 'SCORE: ' + score;
@@ -108,8 +115,35 @@ function restartGameButton() {
     document.getElementById('restart-button').appendChild(playAgain);
     document.getElementById('left').style.display = 'none';
     document.getElementById('right').style.display = 'none';
+    document.getElementById('shoot').style.display = 'none';
+}
+
+function projectileCoordinate(planeCol) {
+    projectileCol = planeCol;
+}
+
+function createProjectile() {
+    startingRow = 3;
+    gameBoard[startingRow][projectileCol].id = 'projectile';
+    projectileLoop = setInterval(shootProjectile, 200);
+}
+
+function shootProjectile() {
+    if (startingRow > 0) {
+        gameBoard[startingRow][projectileCol].removeAttribute('id');
+        if (projectileCol === colIndex && sameLane === true) {
+            scoreUpdate();
+            clearInterval(projectileLoop);
+            gameBoard[rowIndex][projectileCol].removeAttribute('id');
+            sameLane = false;
+        } else {
+            gameBoard[--startingRow][projectileCol].id = 'projectile';
+            sameLane = true;
+        }
+    }
 }
 
 let obstacleCreate = setInterval(createObstacle, 1000);
 let moveObstacle = setInterval(moveObstacles, 200);
-let lastRow = setInterval(checkLastRow, 500);
+let lastRow = setInterval(avoidedObstacles, 500);
+let firstRow = setInterval(checkFirstRow, 100);
