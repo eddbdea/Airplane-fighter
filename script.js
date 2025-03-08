@@ -31,13 +31,14 @@ function createPlane(row, col, element) {
 }
 
 createGameBoard();
+window.addEventListener("keydown", movePlane);
 
-function movePlane(button) {
-    if (button.id === 'left' && planeCol > 0) {
+function movePlane(event) {
+    if (event.keyCode == '37' && planeCol > 0) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][--planeCol].id = 'plane';
         projectileCoordinate(planeCol);
-    } else if (button.id === 'right' && planeCol < MAX_ELEMENTS - 1) {
+    } else if (event.keyCode == '39' && planeCol < MAX_ELEMENTS - 1) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][++planeCol].id = 'plane';
         projectileCoordinate(planeCol);
@@ -113,19 +114,20 @@ function restartGameButton() {
     })
     playAgain.innerText = 'Play again!';
     document.getElementById('restart-button').appendChild(playAgain);
-    document.getElementById('left').style.display = 'none';
-    document.getElementById('right').style.display = 'none';
-    document.getElementById('shoot').style.display = 'none';
 }
 
 function projectileCoordinate(planeCol) {
     projectileCol = planeCol;
 }
 
-function createProjectile() {
-    startingRow = 3;
-    gameBoard[startingRow][projectileCol].id = 'projectile';
-    projectileLoop = setInterval(shootProjectile, 200);
+window.addEventListener("keydown", createProjectile);
+
+function createProjectile(event) {
+    if (event.keyCode == '32') {
+        startingRow = 3;
+        gameBoard[startingRow][projectileCol].id = 'projectile';
+        projectileLoop = setInterval(shootProjectile, 200); 
+    }
 }
 
 function shootProjectile() {
