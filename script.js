@@ -2,13 +2,10 @@ const MAX_ELEMENTS = 5;
 const gameBoard = [];
 const MAX_ASTEROIDS = 2;
 let planeCol = 2;
+let score = 0;
+let sameLane = true;
 let colIndex = 0;
 let rowIndex = 0;
-let score = 0;
-let projectileCol = 2;
-let startingRow = 0;
-let projectileLoop = 0;
-let sameLane = true;
 
 //create game box matrix (2D array)
 function createGameBoard() {
@@ -37,11 +34,9 @@ function movePlane(event) {
     if (event.keyCode == '37' && planeCol > 0) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][--planeCol].id = 'plane';
-        projectileCoordinate(planeCol);
     } else if (event.keyCode == '39' && planeCol < MAX_ELEMENTS - 1) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][++planeCol].id = 'plane';
-        projectileCoordinate(planeCol);
     }
 }
 
@@ -77,7 +72,6 @@ function checkFirstRow() {
     for (let col = 0; col < MAX_ELEMENTS; ++col) {
         if(gameBoard[0][col].id === 'projectile') {
            gameBoard[0][col].removeAttribute('id');
-           clearInterval(projectileLoop);
         }
     }
 }
@@ -89,7 +83,10 @@ function checkGameStatus(col) {
         clearInterval(obstacleCreate);
         clearInterval(moveObstacle);
         clearInterval(lastRow);
+        clearInterval(projectileLoop);
         restartGameButton();
+        window.removeEventListener("keydown", createProjectile);
+        window.removeEventListener("keydown", movePlane);
         return false;
     }
     return true;
@@ -116,36 +113,34 @@ function restartGameButton() {
     document.getElementById('restart-button').appendChild(playAgain);
 }
 
-function projectileCoordinate(planeCol) {
-    projectileCol = planeCol;
-}
-
 window.addEventListener("keydown", createProjectile);
 
 function createProjectile(event) {
     if (event.keyCode == '32') {
-        startingRow = 3;
+        const startingRow = 3;
+        const projectileCol = planeCol;
         gameBoard[startingRow][projectileCol].id = 'projectile';
-        projectileLoop = setInterval(shootProjectile, 200); 
     }
 }
 
 function shootProjectile() {
-    if (startingRow > 0) {
-        gameBoard[startingRow][projectileCol].removeAttribute('id');
-        if (projectileCol === colIndex && sameLane === true) {
-            scoreUpdate();
-            clearInterval(projectileLoop);
-            gameBoard[rowIndex][projectileCol].removeAttribute('id');
-            sameLane = false;
-        } else {
-            gameBoard[--startingRow][projectileCol].id = 'projectile';
-            sameLane = true;
+    for (let row = 0; row <= 2; ++row) {
+        for (let col = 0; col < MAX_ELEMENTS; ++col) {
+            if (gameBoard[row + 1][col].id === 'projectile') {
+                gameBoard[row + 1][col].removeAttribute('id');
+                if (gameBoard[row][col].id === 'obstacle') {
+                    scoreUpdate();
+                    gameBoard[row][col].removeAttribute('id');
+                } else {
+                    gameBoard[row][col].id = 'projectile'; 
+                }
+            }
         }
     }
 }
 
-let obstacleCreate = setInterval(createObstacle, 1000);
-let moveObstacle = setInterval(moveObstacles, 200);
-let lastRow = setInterval(avoidedObstacles, 500);
-let firstRow = setInterval(checkFirstRow, 100);
+let projectileLoop = setInterval(shootProjectile, 200); 
+let obstacleCreate = setInterval(createObstacle, 3000); 
+let moveObstacle = setInterval(moveObstacles, 700); 
+let lastRow = setInterval(avoidedObstacles, 1000); 
+let firstRow = setInterval(checkFirstRow, 400); 

@@ -1,9 +1,10 @@
 #game-board {
     background-image: url(images/cloud-example.jpg);
+    height: 500px;
+    width: 500px;
 }
 
 .col {
-    height: 8rem;
     background-repeat: no-repeat;
     text-align: center;
     background-position: center;
@@ -15,12 +16,19 @@ button {
 
 #plane {
     background-image: url(images/plane.svg);
+    background-size: 100px;
 }
 
 #obstacle {
     background-image: url(images/asteroid.svg);
+    background-size: 100px;
 }
 
 #projectile {
     background-image: url(images/missile.svg);
+}
+
+#game {
+    height: 500px;
+    width: 500px;
 }
