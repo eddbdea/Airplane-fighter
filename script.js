@@ -139,8 +139,8 @@ function shootProjectile() {
     }
 }
 
-let projectileLoop = setInterval(shootProjectile, 200); 
+let projectileLoop = setInterval(shootProjectile, 300); 
 let obstacleCreate = setInterval(createObstacle, 3000); 
 let moveObstacle = setInterval(moveObstacles, 700); 
 let lastRow = setInterval(avoidedObstacles, 1000); 
-let firstRow = setInterval(checkFirstRow, 400); 
+let firstRow = setInterval(checkFirstRow, 800); 
