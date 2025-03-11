@@ -54,8 +54,14 @@ function moveObstacles() {
     const status = checkGameStatus(colIndex);
     if (rowIndex < MAX_ELEMENTS - 1 && status === true &&
         gameBoard[rowIndex][colIndex].id === 'obstacle') {
-        gameBoard[rowIndex][colIndex].removeAttribute('id');
-        gameBoard[++rowIndex][colIndex].id = 'obstacle';
+        if (gameBoard[rowIndex + 1][colIndex].id === 'projectile') {
+            scoreUpdate();
+            gameBoard[rowIndex + 1][colIndex].removeAttribute('id');
+            gameBoard[rowIndex][colIndex].removeAttribute('id');
+        } else {
+            gameBoard[rowIndex][colIndex].removeAttribute('id');
+            gameBoard[++rowIndex][colIndex].id = 'obstacle'; 
+        }
     }
 }
 
@@ -81,9 +87,8 @@ function checkGameStatus(col) {
         gameBoard[MAX_ELEMENTS - 2][col].id === 'obstacle') {
         finalScore();
         clearInterval(obstacleCreate);
-        clearInterval(moveObstacle);
+        clearInterval(projectileAndObstacle);
         clearInterval(lastRow);
-        clearInterval(projectileLoop);
         restartGameButton();
         window.removeEventListener("keydown", createProjectile);
         window.removeEventListener("keydown", movePlane);
@@ -139,8 +144,10 @@ function shootProjectile() {
     }
 }
 
-let projectileLoop = setInterval(shootProjectile, 300); 
 let obstacleCreate = setInterval(createObstacle, 3000); 
-let moveObstacle = setInterval(moveObstacles, 700); 
+let projectileAndObstacle = setInterval(function () {
+    shootProjectile();
+    moveObstacles();
+}, 400);
 let lastRow = setInterval(avoidedObstacles, 1000); 
 let firstRow = setInterval(checkFirstRow, 800); 
