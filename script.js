@@ -150,4 +150,4 @@ let projectileAndObstacle = setInterval(function () {
     moveObstacles();
 }, 400);
 let lastRow = setInterval(avoidedObstacles, 1000); 
-let firstRow = setInterval(checkFirstRow, 800); 
+let firstRow = setInterval(checkFirstRow, 1000); 
