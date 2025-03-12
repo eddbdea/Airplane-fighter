@@ -4,6 +4,9 @@ const MAX_ASTEROIDS = 2;
 const THREE_SECONDS = 3000;
 const FOUR_HUNDRED_MS = 400;
 const ONE_SECOND = 1000;
+const ArrowLeft = '37';
+const ArrowRight = '39';
+const Spacekey = '32';
 let planeCol = 2;
 let score = 0;
 let sameLane = true;
@@ -34,10 +37,10 @@ createGameBoard();
 window.addEventListener("keydown", movePlane);
 
 function movePlane(event) {
-    if (event.keyCode == '37' && planeCol > 0) {
+    if (event.keyCode == ArrowLeft && planeCol > 0) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][--planeCol].id = 'plane';
-    } else if (event.keyCode == '39' && planeCol < MAX_ELEMENTS - 1) {
+    } else if (event.keyCode == ArrowRight && planeCol < MAX_ELEMENTS - 1) {
         gameBoard[MAX_ELEMENTS - 1][planeCol].removeAttribute('id');
         gameBoard[MAX_ELEMENTS - 1][++planeCol].id = 'plane';
     }
@@ -124,7 +127,7 @@ function restartGameButton() {
 window.addEventListener("keydown", createProjectile);
 
 function createProjectile(event) {
-    if (event.keyCode == '32') {
+    if (event.keyCode == Spacekey) {
         const startingRow = 3;
         const projectileCol = planeCol;
         gameBoard[startingRow][projectileCol].id = 'projectile';
