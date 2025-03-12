@@ -1,6 +1,9 @@
 const MAX_ELEMENTS = 5;
 const gameBoard = [];
 const MAX_ASTEROIDS = 2;
+const THREE_SECONDS = 3000;
+const FOUR_HUNDRED_MS = 400;
+const ONE_SECOND = 1000;
 let planeCol = 2;
 let score = 0;
 let sameLane = true;
@@ -144,10 +147,10 @@ function shootProjectile() {
     }
 }
 
-let obstacleCreate = setInterval(createObstacle, 3000); 
-let projectileAndObstacle = setInterval(function () {
+const obstacleCreate = setInterval(createObstacle, THREE_SECONDS); 
+const projectileAndObstacle = setInterval(function () {
     shootProjectile();
     moveObstacles();
-}, 400);
-let lastRow = setInterval(avoidedObstacles, 1000); 
-let firstRow = setInterval(checkFirstRow, 1000); 
+}, FOUR_HUNDRED_MS);
+const lastRow = setInterval(avoidedObstacles, ONE_SECOND); 
+const firstRow = setInterval(checkFirstRow, ONE_SECOND); 
