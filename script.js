@@ -119,7 +119,7 @@ function restartGameButton() {
     playAgain.classList.add('btn', 'btn-danger');
     playAgain.addEventListener('click', function(e) {
         location.reload();
-    })
+    });
     playAgain.innerText = 'Play again!';
     document.getElementById('restart-button').appendChild(playAgain);
 }
@@ -150,10 +150,11 @@ function shootProjectile() {
     }
 }
 
-const obstacleCreate = setInterval(createObstacle, THREE_SECONDS); 
 const projectileAndObstacle = setInterval(function () {
     shootProjectile();
     moveObstacles();
 }, FOUR_HUNDRED_MS);
+
+const obstacleCreate = setInterval(createObstacle, THREE_SECONDS); 
 const lastRow = setInterval(avoidedObstacles, ONE_SECOND); 
 const firstRow = setInterval(checkFirstRow, ONE_SECOND); 
