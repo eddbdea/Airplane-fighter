@@ -117,7 +117,7 @@ function scoreUpdate() {
 function restartGameButton() {
     const playAgain = document.createElement('button');
     playAgain.classList.add('btn', 'btn-danger');
-    playAgain.addEventListener('click', function(e) {
+    playAgain.addEventListener('click', function () {
         location.reload();
     });
     playAgain.innerText = 'Play again!';
