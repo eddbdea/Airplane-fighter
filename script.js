@@ -82,7 +82,7 @@ function avoidedObstacles() {
 
 function checkFirstRow() {
     for (let col = 0; col < MAX_ELEMENTS; ++col) {
-        if(gameBoard[0][col].id === 'projectile') {
+        if (gameBoard[0][col].id === 'projectile') {
            gameBoard[0][col].removeAttribute('id');
         }
     }
